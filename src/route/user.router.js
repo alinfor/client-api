@@ -2,7 +2,7 @@ const express = require('express')
 const router= express.Router();
 
 const {insertUser, getUserByEmail} = require("../../model/user/user.model");
-const { hashPassword } = require('../../model/help/bcrypt.help');
+const { hashPassword,comparePassword } = require('../../model/help/bcrypt.help');
 
 router.post("/",async(req,res)=>{
     const { name, company, address, phone, email, password } = req.body;
@@ -34,12 +34,20 @@ router.post("/",async(req,res)=>{
 	}
 })
 router.post("/login",async(req,res)=>{
-const {email, password}=req.body;
+const {email, password }=req.body;
 if(!email || !password){
 	return res.json({status:"error",message:"invalid form"})
 }
+
 const userEmail = await getUserByEmail(email)
-console.log(userEmail);
+
+const passFromDb = userEmail && userEmail._id ? userEmail.password : null 
+if (!passFromDb) {
+return res.json({status:"error",message:"invalid email or password"})
+	
+}
+const result =await comparePassword(password, passFromDb)
+console.log(result);
 res.json({status:"succes",message:"login succes"})
 })
 

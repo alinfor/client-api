@@ -15,10 +15,10 @@ const findOneByEmail = (email) => {
 
 const getUserByEmail = (email) => {
   return new Promise((resolve, reject) => {
-    if (!email) {
-      reject("Email is required");
-      return;
-    }
+    // if (!email) {
+    //   reject("Email is required");
+    //   return;
+    // }
 
     findOneByEmail(email)
       .then((user) => {
