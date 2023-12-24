@@ -1,0 +1,24 @@
+POST http://localhost:3001/v1/user
+Content-Type:application/json
+
+{
+  "name": "John",
+  "company": "Example Company",
+  "address": "100 Main St",
+  "phone": 1234567890,
+  "email": "john@example.com",
+  "password": "password123",
+  "refreshJWT": {
+    "token": "refresh_token_example",
+    "addedAt": "2023-01-01T00:00:00.000Z"
+  },
+  "isVerified": false
+}
+###user sing in
+POST http://localhost:3001/v1/user/login
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "password123"
+}

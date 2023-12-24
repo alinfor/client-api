@@ -9,7 +9,38 @@ const insertUser = (userObj) => {
       .catch((error) => reject(error));
   });
 };
+const findOneByEmail = (email) => {
+  return UserSchema.findOne({ email }).exec();
+};
+
+const getUserByEmail = (email) => {
+  return new Promise((resolve, reject) => {
+    if (!email) {
+      reject("Email is required");
+      return;
+    }
+
+    findOneByEmail(email)
+      .then((user) => {
+        resolve(user);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Utilisation de la fonction
+getUserByEmail()
+  .then((user) => {
+    console.log(user);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
 
 module.exports = {
-    insertUser
+    insertUser,
+    getUserByEmail,
 }

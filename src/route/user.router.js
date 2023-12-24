@@ -1,7 +1,7 @@
 const express = require('express')
 const router= express.Router();
 
-const {insertUser} = require("../../model/user/user.model");
+const {insertUser, getUserByEmail} = require("../../model/user/user.model");
 const { hashPassword } = require('../../model/help/bcrypt.help');
 
 router.post("/",async(req,res)=>{
@@ -32,6 +32,15 @@ router.post("/",async(req,res)=>{
 		}
 		res.json({ status: "error", message });
 	}
+})
+router.post("/login",async(req,res)=>{
+const {email, password}=req.body;
+if(!email || !password){
+	return res.json({status:"error",message:"invalid form"})
+}
+const userEmail = await getUserByEmail(email)
+console.log(userEmail);
+res.json({status:"succes",message:"login succes"})
 })
 
 router.all('/',(req,res)=>{
